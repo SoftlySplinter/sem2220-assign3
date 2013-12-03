@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/widget_padding" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/appwidget_dark_bg"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/widget_left"
+            android:layout_width="@dimen/widget_button_width"
+            android:layout_height="match_parent"
+            android:background="@drawable/appwidget_button_left"
+            android:contentDescription="@string/previous_day"
+            android:src="@drawable/ic_action_previous_item"
+             />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+			<TextView
+			    android:id="@+id/widget_event_day"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:gravity="center"
+			    android:textColor="@color/conference_light"
+			    android:text="@string/app_name" />
+
+			<ListView
+			    android:id="@+id/widget_events_list"
+			    android:layout_width="match_parent"
+			    android:layout_height="match_parent" >
+			</ListView>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/widget_right"
+            android:layout_width="@dimen/widget_button_width"
+            android:layout_height="match_parent"
+            android:background="@drawable/appwidget_button_right"
+            android:contentDescription="@string/next_day"
+            android:src="@drawable/ic_action_next_item" />
+    </LinearLayout>
+
+</FrameLayout>
