@@ -1,6 +1,5 @@
 package uk.ac.aber.androidcourse.conferencelibrary;
 
-import uk.ac.aber.androidcourse.conferencelibrary.objects.Session;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
@@ -180,15 +179,53 @@ public class DBAccess {
 				new String[] { "" + dayId }, sortOrder);
 		return cursor;
 	}
+
+	public Cursor getSession(long id) throws DBAccessException {
+		return this.getDBObject(id, new ConferenceCP.Sessions());
+	}
 	
-	public Cursor getSession(long sessionId) throws DBAccessException {
-		String where = ConferenceCP.Sessions._ID + " = ?";
-		Cursor cursor = this.callerContentResolver.query(ConferenceCP.Sessions.CONTENT_URI, null, where, new String[] { Long.toString(sessionId) }, null);
-		
-		if(cursor.getCount() != 1) {
-			throw new DBAccessException("Query resulted in %d results, but expected %d.", cursor.getCount(), 1);
+	public Cursor getDay(long id) throws DBAccessException {
+		return this.getDBObject(id, new ConferenceCP.Days());
+	}
+
+	public Cursor getVenue(long id) throws DBAccessException {
+		return this.getDBObject(id, new ConferenceCP.Venues());
+	}
+
+	public Cursor getEvent(long id) throws DBAccessException {
+		return this.getDBObject(id, new ConferenceCP.Events());
+	}
+
+	public Cursor getEventVenue(long id) throws DBAccessException {
+		return this.getDBObject(id, new ConferenceCP.EventsVenue());
+	}
+
+	public Cursor getTalks(long id) throws DBAccessException {
+		return this.getDBObject(id, new ConferenceCP.Talks());
+	}
+
+	/**
+	 * Gets a cursor based on a {@link Descriptor}.
+	 * 
+	 * @param id
+	 *            The ID of the object
+	 * @param d
+	 *            The Descriptor.
+	 * @return A cursor pointing to the one and only object.
+	 * @throws DBAccessException
+	 *             If there are no objects returned, or more than one.
+	 */
+	private Cursor getDBObject(long id, Descriptor d) throws DBAccessException {
+		String where = BaseColumns._ID + " = ?";
+		Cursor cursor = this.callerContentResolver.query(d.contentURI(), null,
+				where, new String[] { Long.toString(id) }, null);
+
+		if (cursor.getCount() != 1) {
+			throw new DBAccessException(
+					"Query resulted in %d results, but expected %d.",
+					cursor.getCount(), 1);
 		}
-		
+
 		cursor.moveToNext();
 		return cursor;
 	}
@@ -229,8 +266,8 @@ public class DBAccess {
 	}
 
 	/**
-	 * execute a query as a managed query if we have an activity
-	 * and as an unmageaged query otherwise
+	 * execute a query as a managed query if we have an activity and as an
+	 * unmageaged query otherwise
 	 * 
 	 * @param uri
 	 * @param columnName
@@ -249,8 +286,8 @@ public class DBAccess {
 					new String[] { columnName }, where, whereArgs, sortOrder);
 		}
 	}
-	
-	public static class DBAccessException extends Exception {
+
+	public static final class DBAccessException extends Exception {
 		public DBAccessException(String message, Object... args) {
 			super(String.format(message, args));
 		}

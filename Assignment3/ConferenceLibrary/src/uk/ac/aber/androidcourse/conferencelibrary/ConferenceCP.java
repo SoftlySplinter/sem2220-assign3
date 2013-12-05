@@ -29,7 +29,11 @@ public class ConferenceCP {
 	/**
 	 * The sessions resource. 
 	 */
-	public static class Sessions implements BaseColumns {
+	public static class Sessions implements Descriptor {
+		@Override
+		public Uri contentURI() {
+			return CONTENT_URI;
+		}
 		// BaseColumns defines the _id and _count column names that are common to all provider tables
 		
 		// Column positions of results where everything is returned. Not applicable if a projection
@@ -105,7 +109,11 @@ public class ConferenceCP {
 	/**
 	 * The events resource. 
 	 */
-	public static class Events implements BaseColumns {
+	public static class Events implements Descriptor {
+		@Override
+		public Uri contentURI() {
+			return CONTENT_URI;
+		}
 		
 		public static final int ID_COLUMN = 0;
 		public static final int TITLE_COLUMN = 1;
@@ -168,7 +176,11 @@ public class ConferenceCP {
 	/**
 	 * The talks resource. 
 	 */
-	public static class Talks implements BaseColumns {
+	public static class Talks implements Descriptor {
+		@Override
+		public Uri contentURI() {
+			return CONTENT_URI;
+		}
 		
 		public static final int ID_COLUMN = 0;
 		public static final int TITLE_COLUMN = 1;
@@ -236,7 +248,11 @@ public class ConferenceCP {
 	/**
 	 * The venues resource. 
 	 */
-	public static class Venues implements BaseColumns {
+	public static class Venues implements Descriptor {
+		@Override
+		public Uri contentURI() {
+			return CONTENT_URI;
+		}
 		
 		public static final int ID_COLUMN = 0;
 		public static final int NAME_COLUMN = 1;
@@ -295,7 +311,11 @@ public class ConferenceCP {
 	/**
 	 * The days resource. 
 	 */
-	public static class Days implements BaseColumns {
+	public static class Days implements Descriptor {
+		@Override
+		public Uri contentURI() {
+			return CONTENT_URI;
+		}
 		
 		public static final int ID_COLUMN = 0;
 		public static final int DAY_COLUMN = 1;
@@ -355,7 +375,11 @@ public class ConferenceCP {
 	/**
 	 * The events-venue resource. 
 	 */
-	public static class EventsVenue implements BaseColumns {
+	public static class EventsVenue implements Descriptor {
+		@Override
+		public Uri contentURI() {
+			return CONTENT_URI;
+		}
 		
 		
 		/**
