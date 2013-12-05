@@ -19,14 +19,14 @@
             </intent-filter>
         </activity>
         
-        <receiver android:name="uk.ac.aber.androidcourse.conference.widget.Widget" >
+        <receiver android:name="uk.ac.aber.androidcourse.conference.widget.Widget" android:label="Conference Widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/conferece_widget" />
+                android:resource="@xml/conferece_widget"/>
         </receiver>
 
         <provider

@@ -1,53 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/widget_padding" >
+    android:padding="@dimen/widget_padding"
+    tools:ignore="UselessParent" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/appwidget_dark_bg"
-        android:orientation="horizontal" >
-
-        <ImageButton
-            android:id="@+id/widget_left"
-            android:layout_width="@dimen/widget_button_width"
-            android:layout_height="match_parent"
-            android:background="@drawable/appwidget_button_left"
-            android:contentDescription="@string/previous_day"
-            android:src="@drawable/ic_action_previous_item"
-             />
+        android:background="@drawable/appwidget_bg"
+        android:orientation="vertical" >
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/conference_dark"
+            android:textSize="20sp"
+            android:background="@drawable/title_bar"
+            android:gravity="center"
+            android:text="Conference Details" />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal" >
 
-			<TextView
-			    android:id="@+id/widget_event_day"
-			    android:layout_width="match_parent"
-			    android:layout_height="wrap_content"
-			    android:gravity="center"
-			    android:textColor="@color/conference_light"
-			    android:text="@string/app_name" />
+            <ImageButton
+                android:id="@+id/widget_left"
+                android:layout_width="@dimen/widget_button_width"
+                android:layout_height="match_parent"
+                android:background="@drawable/appwidget_button_left"
+                android:contentDescription="@string/previous_day"
+                android:src="@drawable/ic_action_previous_item" />
 
-			<ListView
-			    android:id="@+id/widget_events_list"
-			    android:layout_width="match_parent"
-			    android:layout_height="match_parent" >
-			</ListView>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
 
+                <TextView
+                    android:id="@+id/widget_now"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Now title"
+                    android:textColor="@color/conference_dark"
+                    android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/widget_now_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00-23:59"
+                    android:textColor="@color/conference_dark" />
+
+                <TextView
+                    android:id="@+id/widget_now_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Now detail"
+                    android:textColor="@color/conference_dark" />
+
+                <TextView
+                    android:id="@+id/widget_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Next Title."
+                    android:textColor="@color/conference_light"
+                    android:paddingTop="@dimen/text_padding"
+                    android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/widget_next_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00-23:59"
+                    android:textColor="@color/conference_light" />
+
+                <TextView
+                    android:id="@+id/widget_next_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Next detail"
+                    android:textColor="@color/conference_light" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/widget_right"
+                android:layout_width="@dimen/widget_button_width"
+                android:layout_height="match_parent"
+                android:background="@drawable/appwidget_button_right"
+                android:contentDescription="@string/next_day"
+                android:src="@drawable/ic_action_next_item" />
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/widget_right"
-            android:layout_width="@dimen/widget_button_width"
-            android:layout_height="match_parent"
-            android:background="@drawable/appwidget_button_right"
-            android:contentDescription="@string/next_day"
-            android:src="@drawable/ic_action_next_item" />
+        <TextView
+            android:id="@+id/widget_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/conference_dark" />
     </LinearLayout>
 
 </FrameLayout>
