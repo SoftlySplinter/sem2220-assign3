@@ -34,12 +34,12 @@ public class ConferenceCP {
 		
 		// Column positions of results where everything is returned. Not applicable if a projection
 		// is used by the client. As an alternative, column positions can also be found based on column names.
-		public static final int ID_COLUMN = 0;
+		public static final int ID_COLUMN = 5;
 		public static final int TITLE_COLUMN = 1;
-		public static final int START_TIME_COLUMN = 2;
-		public static final int END_TIME_COLUMN = 3;
+		public static final int START_TIME_COLUMN = 3;
+		public static final int END_TIME_COLUMN = 0;
 		public static final int TYPE_COLUMN = 4;
-		public static final int DAY_ID_COLUMN = 5;
+		public static final int DAY_ID_COLUMN = 2;
 		
 		/**
 		 * Directory path part for the sessions resource

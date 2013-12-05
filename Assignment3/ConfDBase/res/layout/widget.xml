@@ -31,7 +31,9 @@
                 android:id="@+id/widget_left"
                 android:layout_width="@dimen/widget_button_width"
                 android:layout_height="match_parent"
+                
                 android:background="@drawable/appwidget_button_left"
+                
                 android:contentDescription="@string/previous_day"
                 android:src="@drawable/ic_action_previous_item" />
 

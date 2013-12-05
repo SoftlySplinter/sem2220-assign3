@@ -1,6 +1,6 @@
-package uk.ac.aber.androidcourse.conferencewidget;
+package uk.ac.aber.androidcourse.conferencelibrary;
 
-import uk.ac.aber.androidcourse.conferencelibrary.ConferenceCP;
+import uk.ac.aber.androidcourse.conferencelibrary.objects.Session;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
@@ -180,6 +180,18 @@ public class DBAccess {
 				new String[] { "" + dayId }, sortOrder);
 		return cursor;
 	}
+	
+	public Cursor getSession(long sessionId) throws DBAccessException {
+		String where = ConferenceCP.Sessions._ID + " = ?";
+		Cursor cursor = this.callerContentResolver.query(ConferenceCP.Sessions.CONTENT_URI, null, where, new String[] { Long.toString(sessionId) }, null);
+		
+		if(cursor.getCount() != 1) {
+			throw new DBAccessException("Query resulted in %d results, but expected %d.", cursor.getCount(), 1);
+		}
+		
+		cursor.moveToNext();
+		return cursor;
+	}
 
 	private long[] getArrayOfIdsWithQuery(Uri uri, String columnName,
 			String where, String[] whereArgs, String sortOrder) {
@@ -235,6 +247,12 @@ public class DBAccess {
 		} else {
 			return callerContentResolver.query(uri,
 					new String[] { columnName }, where, whereArgs, sortOrder);
+		}
+	}
+	
+	public static class DBAccessException extends Exception {
+		public DBAccessException(String message, Object... args) {
+			super(String.format(message, args));
 		}
 	}
 
