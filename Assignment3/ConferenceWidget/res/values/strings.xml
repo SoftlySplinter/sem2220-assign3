@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="hello">Hello World, ConfDBaseActivity!</string>
-    <string name="app_name">ConfDBase</string>
-    <string name="debugActivityMessage">This is a content provider. This activity is here for debug puposes. The activity outputs the contents of the database to the log file.</string>
+    <string name="app_name">Conference Widget</string>
 
     <color name="conference_dark">#222222</color>
     <color name="conference_light">#555555</color>
@@ -12,6 +9,7 @@
     <string name="previous_day">Previous Day</string>
     <string name="next_day">Next Day</string>
     <dimen name="text_padding">10dp</dimen>
-    <string name="empty_list">Couldn\'t load content</string>
+    <string name="empty_list">Can\'t load sessions</string>
+    <string name="notification">No Notifications</string>
 
 </resources>

@@ -4,27 +4,28 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="18" />
-    
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
-        <service android:name="uk.ac.aber.androidcourse.conference.widget.ConferenceWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
-        
-        <receiver android:name="uk.ac.aber.androidcourse.conference.widget.ConferenceWidget" android:label="Conference Widget">
+        <service
+            android:name="uk.ac.aber.androidcourse.conference.widget.list.ConferenceWidgetListService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver
+            android:name="uk.ac.aber.androidcourse.conference.widget.ConferenceWidget"
+            android:label="Conference Widget" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/conferece_widget"/>
+                android:resource="@xml/conferece_widget" />
         </receiver>
     </application>
 

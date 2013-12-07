@@ -53,6 +53,10 @@ public class DBAccess {
 				.appendPath(dayId + "").build(), ConferenceCP.Days.DATE_NAME,
 				null, null);
 	}
+	
+	public long[] getDayIds() {
+		return getArrayOfIdsWithQuery(ConferenceCP.Days.CONTENT_URI, BaseColumns._ID, null, null, ConferenceCP.Days._ID + " ASC");
+	}
 
 	public long[] getSessionsForDayId(long dayId) {
 		// SELECT _id FROM sessions WHERE dayID = ? ORDER BY startTime

@@ -63,7 +63,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/conference_dark" />
+            android:textColor="@color/conference_dark"
+            android:text="@string/notification" />
     </LinearLayout>
 
 </FrameLayout>

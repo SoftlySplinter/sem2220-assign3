@@ -1,8 +1,6 @@
 package uk.ac.aber.androidcourse.conference.widget;
 
-import uk.ac.aber.androidcourse.conferencelibrary.DBAccess;
-import uk.ac.aber.androidcourse.conferencelibrary.DBAccess.DBAccessException;
-import uk.ac.aber.androidcourse.conferencelibrary.objects.Session;
+import uk.ac.aber.androidcourse.conference.widget.list.ConferenceWidgetListService;
 import android.annotation.TargetApi;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -25,39 +23,18 @@ public class ConferenceWidget extends AppWidgetProvider {
 		Log.d(LOG_TAG, "onUpdate");
 		for (int i = 0; i < appWidgetIds.length; i++) {
 			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
-			Intent intent = new Intent(context, ConferenceWidgetService.class);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
-            intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-			views.setRemoteAdapter(appWidgetIds[i], R.id.widget_list, intent);
+			
+			Intent listIntent = new Intent(context, ConferenceWidgetListService.class);
+            listIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
+            listIntent.setData(Uri.parse(listIntent.toUri(Intent.URI_INTENT_SCHEME)));
+			views.setRemoteAdapter(R.id.widget_list, listIntent);
 			views.setEmptyView(R.id.widget_list, R.id.widget_empty);
+			
+			// TODO setup notification stuff.
+			
 			appWidgetManager.updateAppWidget(appWidgetIds[i], views);
 		}
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
-	}
-
-	private final void doRender(int widgetId, Context context,
-			AppWidgetManager manager) {
-		RemoteViews views = new RemoteViews(context.getPackageName(),
-				R.layout.widget);
-		
-		/*DBAccess access = new DBAccess(context.getContentResolver());
-		Session now = getSession(1, access);
-		Session next = getSession(2, access);
-		this.renderNow(now, views);
-		this.renderNext(next, views, now);*/
-
-		this.bindIntent(widgetId, views, context);
-		this.getNotification(widgetId, views, context);
-
-		manager.updateAppWidget(widgetId, views);
-	}
-
-	private void getNotification(int widgetId, RemoteViews views,
-			Context context) {
-		// TODO load notification from Service.
-	}
-
-	private void bindIntent(int widgetId, RemoteViews views, Context context) {
 	}
 
 //	private void renderNow(Session session, RemoteViews rViews) {
@@ -129,14 +106,5 @@ public class ConferenceWidget extends AppWidgetProvider {
 
 	public void next(View view) {
 		Log.i(LOG_TAG, "Next Day");
-	}
-
-	private Session getSession(int index, DBAccess access) {
-		try {
-			return Session.load(index, access);
-		} catch (DBAccessException e) {
-			Log.e(LOG_TAG, "Unable to load session " + index, e);
-			return null;
-		}
 	}
 }
