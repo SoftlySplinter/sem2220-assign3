@@ -16,6 +16,8 @@ public final class Session {
 		String endTime = cursor.getString(ConferenceCP.Sessions.END_TIME_COLUMN);
 		String type = cursor.getString(ConferenceCP.Sessions.TYPE_COLUMN);
 		Day day = Day.load(cursor.getLong(ConferenceCP.Sessions.DAY_ID_COLUMN), access);
+		
+		cursor.close();
 
 		return new Session(_id, title, startTime, endTime, type, day);
 	}

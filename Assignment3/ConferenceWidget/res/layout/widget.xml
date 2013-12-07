@@ -35,27 +35,27 @@
                 android:contentDescription="@string/previous_day"
                 android:src="@drawable/ic_action_previous_item" />
 
-            <ListView android:id="@+id/widget_list" 
+            <ListView
+                android:id="@+id/widget_list"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-            </ListView>
-            
-            <TextView android:id="@+id/widget_empty"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/empty_list"
-                android:layout_gravity="center"
-                android:gravity="center"/>
+                android:layout_height="match_parent" />
 
-            <ImageButton
-                android:id="@+id/widget_right"
-                android:layout_width="@dimen/widget_button_width"
+            <TextView
+                android:id="@+id/widget_empty"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:background="@drawable/appwidget_button_right"
-                android:contentDescription="@string/next_day"
-                android:src="@drawable/ic_action_next_item" />
+                android:layout_gravity="center"
+                android:gravity="center" />
+
+                <ImageButton
+                    android:id="@+id/widget_right"
+                    android:layout_width="@dimen/widget_button_width"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/appwidget_button_right"
+                    android:contentDescription="@string/next_day"
+                    android:src="@drawable/ic_action_next_item" />
         </LinearLayout>
 
         <TextView
@@ -63,8 +63,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/conference_dark"
-            android:text="@string/notification" />
+            android:text="@string/notification"
+            android:textColor="@color/conference_dark" />
     </LinearLayout>
 
 </FrameLayout>

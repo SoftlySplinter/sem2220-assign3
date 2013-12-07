@@ -3,6 +3,7 @@ package uk.ac.aber.androidcourse.conference.widget.list;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.ac.aber.androidcourse.conference.widget.ConferenceWidget;
 import uk.ac.aber.androidcourse.conference.widget.R;
 import uk.ac.aber.androidcourse.conference.widget.R.id;
 import uk.ac.aber.androidcourse.conference.widget.R.layout;
@@ -19,21 +20,23 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public final class ConferenceWidgetListFactory implements RemoteViewsService.RemoteViewsFactory {
+public final class SessionsListFactory implements RemoteViewsService.RemoteViewsFactory {
 	public final static String LOG_TAG = "Conference Remote Views Factory";
 
 	private final Context context;
 	private final DBAccess access;
 	private List<Session> sessions;
 	private final long[] dayIDs;
+	private long currentDay;
 	
-	public ConferenceWidgetListFactory(Context context, Intent intent) {
+	public SessionsListFactory(Context context, Intent intent) {
 		Log.d(LOG_TAG, "Initialising factory.");
 		
 		this.context = context;
 		this.access = new DBAccess(context.getContentResolver());
-		long widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+		this.currentDay = intent.getLongExtra(ConferenceWidget.CURRENT_DAY, ConferenceWidget.DEFAULT_DAY);
 		this.dayIDs = this.access.getListOfDayIds();
+		this.sessions = new ArrayList<Session>(0);
 	}
 	
 	@Override
@@ -73,14 +76,14 @@ public final class ConferenceWidgetListFactory implements RemoteViewsService.Rem
 
 	@Override
 	public void onCreate() {
-		this.loadSessions(1);
+		this.loadSessions(this.currentDay);
 	}
 	
 	private final void loadSessions(long dayID) {
-		if(!this.validDay(dayID)) {
-			Log.e(LOG_TAG, dayID + " is not a valid day");
-			return;
-		}
+//		if(!this.validDay(dayID)) {
+//			Log.e(LOG_TAG, dayID + " is not a valid day");
+//			return;
+//		}
 		
 		long[] sessionIds = this.access.getSessionsForDayId(dayID);
 		this.sessions = new ArrayList<Session>(sessionIds.length);
@@ -102,26 +105,16 @@ public final class ConferenceWidgetListFactory implements RemoteViewsService.Rem
 		}
 		return false;
 	}
-	
-	private final boolean atStart(long id) {
-		return id == this.dayIDs[0];
-	}
-	
-	private final boolean atEnd(long id) {
-		return id == this.dayIDs[this.dayIDs.length - 1];
-	}
 
 	@Override
 	public void onDataSetChanged() {
-		this.sessions.clear();
-		
-		// TODO change 1 to a variable to select the day.
-		this.loadSessions(1);
+		this.loadSessions(this.currentDay);
 	}
 
 	@Override
 	public void onDestroy() {
 		this.sessions.clear();
+		this.sessions = null;
 	}
 
 }

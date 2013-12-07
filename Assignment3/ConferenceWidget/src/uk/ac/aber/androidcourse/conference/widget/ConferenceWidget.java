@@ -1,7 +1,9 @@
 package uk.ac.aber.androidcourse.conference.widget;
 
-import uk.ac.aber.androidcourse.conference.widget.list.ConferenceWidgetListService;
+import uk.ac.aber.androidcourse.conference.widget.list.SessionsListService;
+import uk.ac.aber.androidcourse.conferencelibrary.DBAccess;
 import android.annotation.TargetApi;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -15,96 +17,113 @@ import android.widget.RemoteViews;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ConferenceWidget extends AppWidgetProvider {
 	private static final String LOG_TAG = "Conferece Widget";
-	public static final String WIDGET_ID = "uk.ac.aber.androidcourse.widget.WIDGET_ID";
+	private static final String NEXT_ACTION = "uk.ac.aber.androidcourse.widget.NEXT_ID";
+	private static final String PREV_ACTION = "uk.ac.aber.androidcourse.widget.PREV_ID";
+	public static final String CURRENT_DAY = "uk.ac.aber.androidcourse.widget.CURRENT_DAY";
+	public static final int DEFAULT_DAY = 0;
+
+	private int currentDay = DEFAULT_DAY;
+	private long[] dayIDs;
+
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		this.dayIDs = new DBAccess(context.getContentResolver()).getDayIds();
+		if (intent.getAction().equals(ConferenceWidget.NEXT_ACTION)) {
+			this.next(context, intent);
+		}
+		if (intent.getAction().equals(ConferenceWidget.PREV_ACTION)) {
+			this.previous(context, intent);
+		}
+		super.onReceive(context, intent);
+	}
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
-		Log.d(LOG_TAG, "onUpdate");
+		this.dayIDs = new DBAccess(context.getContentResolver()).getDayIds();
+
+		Log.i(LOG_TAG, "Updating widget for day: " + this.currentDay);
 		for (int i = 0; i < appWidgetIds.length; i++) {
-			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
-			
-			Intent listIntent = new Intent(context, ConferenceWidgetListService.class);
-            listIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
-            listIntent.setData(Uri.parse(listIntent.toUri(Intent.URI_INTENT_SCHEME)));
+			RemoteViews views = new RemoteViews(context.getPackageName(),
+					R.layout.widget);
+
+			Intent listIntent = new Intent(context,
+					SessionsListService.class);
+			listIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+					appWidgetIds[i]);
+			listIntent.putExtra(ConferenceWidget.CURRENT_DAY,
+					this.dayIDs[this.currentDay]);
+			listIntent.setData(Uri.parse(listIntent
+					.toUri(Intent.URI_INTENT_SCHEME)));
 			views.setRemoteAdapter(R.id.widget_list, listIntent);
 			views.setEmptyView(R.id.widget_list, R.id.widget_empty);
-			
+
 			// TODO setup notification stuff.
-			
+
+			if (this.atStart(this.currentDay)) {
+				views.setViewVisibility(R.id.widget_left, View.INVISIBLE);
+			} else {
+				views.setViewVisibility(R.id.widget_left, View.VISIBLE);
+				Intent prevIntent = new Intent(context, ConferenceWidget.class);
+				prevIntent.setAction(ConferenceWidget.PREV_ACTION);
+				prevIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+						appWidgetIds[i]);
+				prevIntent.putExtra(ConferenceWidget.CURRENT_DAY,
+						this.currentDay - 1);
+				prevIntent.setData(Uri.parse(prevIntent
+						.toUri(Intent.URI_INTENT_SCHEME)));
+				PendingIntent pendingPrevIntent = PendingIntent.getBroadcast(
+						context, 0, prevIntent, 0);
+				views.setOnClickPendingIntent(R.id.widget_left,
+						pendingPrevIntent);
+			}
+
+			if (this.atEnd(this.currentDay)) {
+				views.setViewVisibility(R.id.widget_right, View.INVISIBLE);
+			} else {
+				views.setViewVisibility(R.id.widget_right, View.VISIBLE);
+				Intent nextIntent = new Intent(context, ConferenceWidget.class);
+				nextIntent.setAction(ConferenceWidget.NEXT_ACTION);
+				nextIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+						appWidgetIds[i]);
+				nextIntent.putExtra(ConferenceWidget.CURRENT_DAY,
+						this.currentDay + 1);
+				nextIntent.setData(Uri.parse(nextIntent
+						.toUri(Intent.URI_INTENT_SCHEME)));
+				PendingIntent pendingNextIntent = PendingIntent.getBroadcast(
+						context, 0, nextIntent, 0);
+				views.setOnClickPendingIntent(R.id.widget_right,
+						pendingNextIntent);
+			}
+
 			appWidgetManager.updateAppWidget(appWidgetIds[i], views);
 		}
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 	}
 
-//	private void renderNow(Session session, RemoteViews rViews) {
-//		String title = session.title;
-//		if (isNow(session)) {
-//			title = "Now: " + title;
-//		}
-//		rViews.setTextViewText(R.id.widget_now, title);
-//		rViews.setTextViewText(R.id.widget_now_time, session.formatTime());
-//		rViews.setTextViewText(R.id.widget_now_detail, session.type);
-//	}
-//
-//	private boolean isNow(Session session) {
-//		Calendar now = Calendar.getInstance();
-//
-//		SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm",
-//				Locale.getDefault());
-//		Calendar startEvent = Calendar.getInstance();
-//		Calendar endEvent = Calendar.getInstance();
-//		try {
-//			startEvent.setTime(dateFormatter.parse(session.startTime));
-//			endEvent.setTime(dateFormatter.parse(session.endTime));
-//		} catch (ParseException e) {
-//			Log.e(LOG_TAG, e.getLocalizedMessage(), e);
-//			return false;
-//		}
-//
-//		Log.d(LOG_TAG,
-//				String.format("Event starts at %d, time is now: %d",
-//						startEvent.get(Calendar.HOUR), 9));
-//		return now.compareTo(startEvent) >= 0 && now.compareTo(endEvent) < 0;
-//	}
-//
-//	private void renderNext(Session session, RemoteViews rViews,
-//			Session previous) {
-//		String title = session.title;
-//		if (isNext(session, previous)) {
-//			title = "Next: " + title;
-//		}
-//		rViews.setTextViewText(R.id.widget_next, title);
-//		rViews.setTextViewText(R.id.widget_next_time, session.formatTime());
-//		rViews.setTextViewText(R.id.widget_next_detail, session.type);
-//	}
-//
-//	public boolean isNext(Session session, Session previous) {
-//		if (previous == null)
-//			return false;
-//
-//		Calendar now = Calendar.getInstance();
-//
-//		SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm",
-//				Locale.getDefault());
-//		Calendar startEvent = Calendar.getInstance();
-//		Calendar prevEnd = Calendar.getInstance();
-//		try {
-//			startEvent.setTime(dateFormatter.parse(session.startTime));
-//			prevEnd.setTime(dateFormatter.parse(previous.endTime));
-//		} catch (ParseException e) {
-//			Log.e(LOG_TAG, e.getLocalizedMessage(), e);
-//			return false;
-//		}
-//
-//		return now.compareTo(startEvent) > 0 && now.compareTo(prevEnd) <= 0;
-//	}
-
-	public void previous(View view) {
-		Log.i(LOG_TAG, "Previous Day");
+	public void previous(Context context, Intent intent) {
+		this.currentDay = intent.getIntExtra(CURRENT_DAY, 0);
+		// TODO not sure this is the right way to handle this.
+		AppWidgetManager mngr = AppWidgetManager.getInstance(context);
+		this.onUpdate(context, mngr, new int[] { intent.getIntExtra(
+				AppWidgetManager.EXTRA_APPWIDGET_ID,
+				AppWidgetManager.INVALID_APPWIDGET_ID) });
 	}
 
-	public void next(View view) {
-		Log.i(LOG_TAG, "Next Day");
+	public void next(Context context, Intent intent) {
+		this.currentDay = intent.getIntExtra(CURRENT_DAY, 0);
+		// TODO not sure this is the right way to handle this.
+		AppWidgetManager mngr = AppWidgetManager.getInstance(context);
+		this.onUpdate(context, mngr, new int[] { intent.getIntExtra(
+				AppWidgetManager.EXTRA_APPWIDGET_ID,
+				AppWidgetManager.INVALID_APPWIDGET_ID) });
+	}
+
+	private final boolean atStart(long id) {
+		return id == 0;
+	}
+
+	private final boolean atEnd(long id) {
+		return id == this.dayIDs.length - 1;
 	}
 }
