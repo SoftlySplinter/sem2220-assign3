@@ -7,7 +7,7 @@
 
     <color name="conference_dark">#222222</color>
     <color name="conference_light">#555555</color>
-    <dimen name="widget_padding">5dp</dimen>
+    <dimen name="widget_padding">10dp</dimen>
     <dimen name="widget_button_width">40dp</dimen>
     <string name="previous_day">Previous Day</string>
     <string name="next_day">Next Day</string>

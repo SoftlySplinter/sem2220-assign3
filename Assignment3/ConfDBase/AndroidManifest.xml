@@ -19,16 +19,6 @@
             </intent-filter>
         </activity>
         
-        <receiver android:name="uk.ac.aber.androidcourse.conference.widget.Widget" android:label="Conference Widget">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/conferece_widget"/>
-        </receiver>
-
         <provider
             android:authorities="uk.ac.aber.androidcourse.conference.provider.conferencecontentprovider"
             android:name=".provider.ConferenceContentProvider" />

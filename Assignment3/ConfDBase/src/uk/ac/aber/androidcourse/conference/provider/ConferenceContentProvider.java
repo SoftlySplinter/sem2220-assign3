@@ -223,7 +223,7 @@ public class ConferenceContentProvider extends ContentProvider {
     // number has changed since last time, then the onUpgrade method is called (see below).
     // Otherwise, if this app is being installed for the first time then onCreate is called.
     // Otherwise, neither onCreate nor onUpgrade are called.
-    static int DATABASE_VERSION = 1;
+    static int DATABASE_VERSION = 0x5;
 	
     // An SQLiteOpenHelper that makes handling SQL requests easier and supports
     // useful lifecycle methods that we can use or override such as onUpgrade (see below)

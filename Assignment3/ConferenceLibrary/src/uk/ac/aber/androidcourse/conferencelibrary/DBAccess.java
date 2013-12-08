@@ -1,6 +1,5 @@
-package uk.ac.aber.androidcourse.conferencewidget;
+package uk.ac.aber.androidcourse.conferencelibrary;
 
-import uk.ac.aber.androidcourse.conferencelibrary.ConferenceCP;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
@@ -53,6 +52,10 @@ public class DBAccess {
 		return getStringWithQuery(ConferenceCP.Days.CONTENT_URI.buildUpon()
 				.appendPath(dayId + "").build(), ConferenceCP.Days.DATE_NAME,
 				null, null);
+	}
+	
+	public long[] getDayIds() {
+		return getArrayOfIdsWithQuery(ConferenceCP.Days.CONTENT_URI, BaseColumns._ID, null, null, ConferenceCP.Days._ID + " ASC");
 	}
 
 	public long[] getSessionsForDayId(long dayId) {
@@ -181,6 +184,56 @@ public class DBAccess {
 		return cursor;
 	}
 
+	public Cursor getSession(long id) throws DBAccessException {
+		return this.getDBObject(id, new ConferenceCP.Sessions());
+	}
+	
+	public Cursor getDay(long id) throws DBAccessException {
+		return this.getDBObject(id, new ConferenceCP.Days());
+	}
+
+	public Cursor getVenue(long id) throws DBAccessException {
+		return this.getDBObject(id, new ConferenceCP.Venues());
+	}
+
+	public Cursor getEvent(long id) throws DBAccessException {
+		return this.getDBObject(id, new ConferenceCP.Events());
+	}
+
+	public Cursor getEventVenue(long id) throws DBAccessException {
+		return this.getDBObject(id, new ConferenceCP.EventsVenue());
+	}
+
+	public Cursor getTalks(long id) throws DBAccessException {
+		return this.getDBObject(id, new ConferenceCP.Talks());
+	}
+
+	/**
+	 * Gets a cursor based on a {@link Descriptor}.
+	 * 
+	 * @param id
+	 *            The ID of the object
+	 * @param d
+	 *            The Descriptor.
+	 * @return A cursor pointing to the one and only object.
+	 * @throws DBAccessException
+	 *             If there are no objects returned, or more than one.
+	 */
+	private Cursor getDBObject(long id, Descriptor d) throws DBAccessException {
+		String where = BaseColumns._ID + " = ?";
+		Cursor cursor = this.callerContentResolver.query(d.contentURI(), null,
+				where, new String[] { Long.toString(id) }, null);
+
+		if (cursor.getCount() != 1) {
+			throw new DBAccessException(
+					"Query resulted in %d results, but expected %d.",
+					cursor.getCount(), 1);
+		}
+
+		cursor.moveToNext();
+		return cursor;
+	}
+
 	private long[] getArrayOfIdsWithQuery(Uri uri, String columnName,
 			String where, String[] whereArgs, String sortOrder) {
 		long[] result = null;
@@ -217,8 +270,8 @@ public class DBAccess {
 	}
 
 	/**
-	 * execute a query as a managed query if we have an activity
-	 * and as an unmageaged query otherwise
+	 * execute a query as a managed query if we have an activity and as an
+	 * unmageaged query otherwise
 	 * 
 	 * @param uri
 	 * @param columnName
@@ -235,6 +288,12 @@ public class DBAccess {
 		} else {
 			return callerContentResolver.query(uri,
 					new String[] { columnName }, where, whereArgs, sortOrder);
+		}
+	}
+
+	public static final class DBAccessException extends Exception {
+		public DBAccessException(String message, Object... args) {
+			super(String.format(message, args));
 		}
 	}
 

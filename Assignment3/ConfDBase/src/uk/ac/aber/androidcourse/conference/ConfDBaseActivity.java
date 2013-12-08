@@ -48,12 +48,12 @@ public class ConfDBaseActivity extends Activity {
 		if (cursor != null){
 			Log.i(LOG_TAG, "Sessions (" + cursor.getCount() + " entries):");
 			while (cursor.moveToNext()){
-				Log.i(LOG_TAG, "ID: " + cursor.getLong(ConferenceCP.Sessions.ID_COLUMN) + "\n" +
+				Log.i(LOG_TAG, "ID: " + cursor.getString(ConferenceCP.Sessions.ID_COLUMN) + "\n" +
 						       "Title: " + cursor.getString(ConferenceCP.Sessions.TITLE_COLUMN) + "\n" +
 						       "Start time: " + cursor.getString(ConferenceCP.Sessions.START_TIME_COLUMN) + "\n" +
 						       "End time: " + cursor.getString(ConferenceCP.Sessions.END_TIME_COLUMN) + "\n" +
 						       "Type: " + cursor.getString(ConferenceCP.Sessions.TYPE_COLUMN) + "\n" +
-						       "Day id: " + cursor.getLong(ConferenceCP.Sessions.DAY_ID_COLUMN));
+						       "Day id: " + cursor.getString(ConferenceCP.Sessions.DAY_ID_COLUMN));
 			}
 			cursor.close();
 		}
