@@ -1,6 +1,9 @@
 package uk.ac.aber.androidcourse.conference.widget;
 
+import java.util.concurrent.ExecutionException;
+
 import uk.ac.aber.androidcourse.conference.widget.list.SessionsListService;
+import uk.ac.aber.androidcourse.conference.widget.notification.NotificationDownloadService;
 import uk.ac.aber.androidcourse.conferencelibrary.DBAccess;
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
@@ -46,11 +49,21 @@ public class ConferenceWidget extends AppWidgetProvider {
 		for (int i = 0; i < appWidgetIds.length; i++) {
 			RemoteViews views = new RemoteViews(context.getPackageName(),
 					R.layout.widget);
+			try {
+				views.setTextViewText(R.id.widget_notification, new NotificationDownloadService().execute().get());
+			} catch (InterruptedException e) {
+				Log.d(LOG_TAG, "Interrupted", e);
+			} catch (ExecutionException e) {
+				Log.d(LOG_TAG, "Execution Failed", e);
+			}
+			
 			this.setupIntents(context, appWidgetIds[i], views, appWidgetManager);
 		}
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 	}
-
+	
+	
+	
 	private void setupIntents(Context context, int appWidgetId,
 			RemoteViews views, AppWidgetManager appWidgetManager) {
 		Intent listIntent = new Intent(context, SessionsListService.class);
@@ -109,6 +122,7 @@ public class ConferenceWidget extends AppWidgetProvider {
 
 	public void next(Context context, Intent intent) {
 		this.currentDay = intent.getIntExtra(CURRENT_DAY, 0);
+		// TODO not sure this is the right way to handle this.
 		this.onUpdate(context, AppWidgetManager.getInstance(context), new int[]{intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)});
 	}
 
