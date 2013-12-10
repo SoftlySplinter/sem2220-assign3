@@ -1,15 +1,10 @@
 package uk.ac.aber.androidcourse.conference.widget.notification;
 
-import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.HttpURLConnection;
+import java.io.InputStream;
 import java.net.URL;
-import java.util.Date;
-import java.util.List;
-import java.util.Map.Entry;
+import java.net.URLConnection;
 
 import android.util.Log;
 
@@ -30,38 +25,32 @@ public final class Utils {
 		}
 	}
 
-	public static final HttpURLConnection doConnect(URL url, String method)
+	public static final String readConnection(URL url)
 			throws IOException {
-		Log.i(LOG_TAG, String.format("%s %s HTTP/1.1", method, url.getFile()));
+		Log.i(LOG_TAG, String.format("GET %s HTTP/1.1", url.getFile()));
 		Log.i(LOG_TAG, String.format("Host: %s", url.getHost()));
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		for(Entry<String, List<String>> property : conn.getRequestProperties().entrySet()) {
-			Log.i(LOG_TAG, String.format("%s: %s", property.getKey(), property.getValue()));
-		}
-		return conn;
-	}
-
-	public static final String readConnection(HttpURLConnection conn)
-			throws IOException {
+		
+		URLConnection conn = url.openConnection();
+		conn.addRequestProperty("Accept", "*/*");
+		
 		final StringBuilder s = new StringBuilder();
-		BufferedReader bRead = null;
-		Reader reader = null;
+		final InputStream stream = conn.getInputStream();
+		
 		try {
-			conn.connect();
-			Log.i(LOG_TAG, String.format("HTTP/1.1 %d %s", conn.getResponseCode(), conn.getResponseMessage()));
-			Log.i(LOG_TAG, String.format("Date: %s", new Date(conn.getDate())));
-			for(Entry<String, List<String>> prop: conn.getHeaderFields().entrySet()) {
-				Log.i(LOG_TAG, String.format("%s: %s", prop.getKey(), prop.getValue()));
-			}
-			reader = new InputStreamReader(conn.getInputStream());
-			bRead = new BufferedReader(reader);
-			while (bRead.ready()) {
-				s.append(bRead.readLine());
-				s.append(String.format("%n"));
+			int count = 0;
+			int offset = 0;
+			byte buffer[] = new byte[256];
+			while((count = stream.read(buffer)) != -1) {
+				offset = offset + count;
+				String temp = new String(buffer);
+				s.append(temp.substring(0, count));
 			}
 		} finally {
-			close(reader, bRead);
+			close(stream);
 		}
+		
+		Log.i(LOG_TAG, "Content: " + s.toString());
+		
 		return s.toString();
 	}
 }

@@ -13,10 +13,7 @@ public final class NotificationDownloadService extends AsyncTask<Void, Void, Str
 	
 	protected String doInBackground(Void ...v) {
 		try {
-			Log.d(LOG_TAG, "HTTP/1.1 GET " + NOTIFICATION_URL);
-			String content = Utils.readConnection(Utils.doConnect(new URL(NOTIFICATION_URL), "GET"));
-			Log.d(LOG_TAG, "Content: " + content);
-			return content;
+			return Utils.readConnection(new URL(NOTIFICATION_URL));
 		} catch (MalformedURLException e) {
 			Log.e(LOG_TAG, "Invalid URL: " + NOTIFICATION_URL, e);
 		} catch (IOException e) {
