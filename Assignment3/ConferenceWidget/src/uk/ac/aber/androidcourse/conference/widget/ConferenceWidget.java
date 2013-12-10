@@ -2,6 +2,7 @@ package uk.ac.aber.androidcourse.conference.widget;
 
 import java.util.concurrent.ExecutionException;
 
+import uk.ac.aber.androidcourse.conference.widget.list.SessionsListBroadcastReceiver;
 import uk.ac.aber.androidcourse.conference.widget.list.SessionsListService;
 import uk.ac.aber.androidcourse.conference.widget.notification.NotificationDownloadService;
 import uk.ac.aber.androidcourse.conferencelibrary.DBAccess;
@@ -14,38 +15,23 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
-import android.view.View;
 import android.widget.RemoteViews;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ConferenceWidget extends AppWidgetProvider {
 	private static final String LOG_TAG = "Conferece Widget";
-	private static final String NEXT_ACTION = "uk.ac.aber.androidcourse.widget.NEXT_ID";
-	private static final String PREV_ACTION = "uk.ac.aber.androidcourse.widget.PREV_ID";
+	public static final String NEXT_ACTION = "uk.ac.aber.androidcourse.widget.NEXT_ID";
+	public static final String PREV_ACTION = "uk.ac.aber.androidcourse.widget.PREV_ID";
 	public static final String CURRENT_DAY = "uk.ac.aber.androidcourse.widget.CURRENT_DAY";
 	public static final int DEFAULT_DAY = 0;
 
-	private int currentDay = DEFAULT_DAY;
 	private long[] dayIDs;
-
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		this.dayIDs = new DBAccess(context.getContentResolver()).getDayIds();
-		if (intent.getAction().equals(ConferenceWidget.NEXT_ACTION)) {
-			this.next(context, intent);
-		}
-		if (intent.getAction().equals(ConferenceWidget.PREV_ACTION)) {
-			this.previous(context, intent);
-		}
-		super.onReceive(context, intent);
-	}
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
 		this.dayIDs = new DBAccess(context.getContentResolver()).getDayIds();
 
-		Log.i(LOG_TAG, "Updating widget for day: " + this.currentDay);
 		for (int i = 0; i < appWidgetIds.length; i++) {
 			RemoteViews views = new RemoteViews(context.getPackageName(),
 					R.layout.widget);
@@ -62,14 +48,17 @@ public class ConferenceWidget extends AppWidgetProvider {
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 	}
 	
-	
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		Log.i(LOG_TAG, intent.getAction());
+		super.onReceive(context, intent);
+	}
 	
 	private void setupIntents(Context context, int appWidgetId,
 			RemoteViews views, AppWidgetManager appWidgetManager) {
 		Intent listIntent = new Intent(context, SessionsListService.class);
 		listIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-		listIntent.putExtra(ConferenceWidget.CURRENT_DAY,
-				this.dayIDs[this.currentDay]);
+		listIntent.putExtra(ConferenceWidget.CURRENT_DAY, ConferenceWidget.DEFAULT_DAY);
 		listIntent
 				.setData(Uri.parse(listIntent.toUri(Intent.URI_INTENT_SCHEME)));
 		views.setRemoteAdapter(R.id.widget_list, listIntent);
@@ -77,53 +66,27 @@ public class ConferenceWidget extends AppWidgetProvider {
 
 		// TODO setup notification stuff.
 
-		if (this.atStart(this.currentDay)) {
-			views.setViewVisibility(R.id.widget_left, View.INVISIBLE);
-		} else {
-			views.setViewVisibility(R.id.widget_left, View.VISIBLE);
-			Intent prevIntent = new Intent(context, ConferenceWidget.class);
+			Intent prevIntent = new Intent(context, SessionsListBroadcastReceiver.class);
 			prevIntent.setAction(ConferenceWidget.PREV_ACTION);
 			prevIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
 					appWidgetId);
-			prevIntent.putExtra(ConferenceWidget.CURRENT_DAY,
-					this.currentDay - 1);
 			prevIntent.setData(Uri.parse(prevIntent
 					.toUri(Intent.URI_INTENT_SCHEME)));
 			PendingIntent pendingPrevIntent = PendingIntent.getBroadcast(
 					context, 0, prevIntent, 0);
 			views.setOnClickPendingIntent(R.id.widget_left, pendingPrevIntent);
-		}
 
-		if (this.atEnd(this.currentDay)) {
-			views.setViewVisibility(R.id.widget_right, View.INVISIBLE);
-		} else {
-			views.setViewVisibility(R.id.widget_right, View.VISIBLE);
-			Intent nextIntent = new Intent(context, ConferenceWidget.class);
+			Intent nextIntent = new Intent(context, SessionsListBroadcastReceiver.class);
 			nextIntent.setAction(ConferenceWidget.NEXT_ACTION);
 			nextIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
 					appWidgetId);
-			nextIntent.putExtra(ConferenceWidget.CURRENT_DAY,
-					this.currentDay + 1);
 			nextIntent.setData(Uri.parse(nextIntent
 					.toUri(Intent.URI_INTENT_SCHEME)));
 			PendingIntent pendingNextIntent = PendingIntent.getBroadcast(
 					context, 0, nextIntent, 0);
 			views.setOnClickPendingIntent(R.id.widget_right, pendingNextIntent);
-		}
 
 		appWidgetManager.updateAppWidget(appWidgetId, views);
-	}
-
-	public void previous(Context context, Intent intent) {
-		this.currentDay = intent.getIntExtra(CURRENT_DAY, 0);
-		// TODO not sure this is the right way to handle this.
-		this.onUpdate(context, AppWidgetManager.getInstance(context), new int[]{intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)});
-	}
-
-	public void next(Context context, Intent intent) {
-		this.currentDay = intent.getIntExtra(CURRENT_DAY, 0);
-		// TODO not sure this is the right way to handle this.
-		this.onUpdate(context, AppWidgetManager.getInstance(context), new int[]{intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)});
 	}
 
 	private final boolean atStart(long id) {

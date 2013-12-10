@@ -17,11 +17,17 @@
         <service
             android:name="uk.ac.aber.androidcourse.conference.widget.list.SessionsListService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-        
         <service
             android:name="uk.ac.aber.androidcourse.conference.widget.notification.NotificationDownloadService"
             android:permission="android.permission.INTERNET" />
 
+        <receiver android:name="uk.ac.aber.androidcourse.conference.widget.list.SessionsListBroadcastReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="uk.ac.aber.androidcourse.widget.NEXT_ID" />
+                <action android:name="uk.ac.aber.androidcourse.widget.PREV_ID" />
+            </intent-filter>
+        </receiver>
         <receiver
             android:name="uk.ac.aber.androidcourse.conference.widget.ConferenceWidget"
             android:label="Conference Widget" >

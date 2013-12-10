@@ -6,8 +6,7 @@ import android.os.Build;
 import android.widget.RemoteViewsService;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public final class SessionsListService extends RemoteViewsService {
-
+public final class SessionsListService extends RemoteViewsService  {
 	@Override
 	public RemoteViewsFactory onGetViewFactory(Intent intent) {
 		return new SessionsListFactory(this.getApplicationContext(), intent);
