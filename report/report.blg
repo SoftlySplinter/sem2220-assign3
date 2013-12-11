@@ -8,51 +8,49 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: bibliography.bib
-Warning--I didn't find a database entry for "google2013iconography"
 -- IEEEtran.bst version 1.12 (2007/01/11) by Michael Shell.
 -- http://www.michaelshell.org/tex/ieeetran/bibtex/
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
 
 Done.
-You've used 3 entries,
+You've used 5 entries,
             4024 wiz_defined-function locations,
-            821 strings with 7665 characters,
-and the built_in function-call counts, 1092 in all, are:
-= -- 84
-> -- 3
+            826 strings with 7857 characters,
+and the built_in function-call counts, 1750 in all, are:
+= -- 140
+> -- 5
 < -- 0
-+ -- 3
++ -- 5
 - -- 0
-* -- 43
-:= -- 211
-add.period$ -- 9
-call.type$ -- 3
-change.case$ -- 6
+* -- 59
+:= -- 333
+add.period$ -- 15
+call.type$ -- 5
+change.case$ -- 10
 chr.to.int$ -- 0
-cite$ -- 3
-duplicate$ -- 84
-empty$ -- 100
+cite$ -- 5
+duplicate$ -- 140
+empty$ -- 166
 format.name$ -- 0
-if$ -- 219
+if$ -- 363
 int.to.chr$ -- 0
-int.to.str$ -- 3
-missing$ -- 21
-newline$ -- 38
+int.to.str$ -- 5
+missing$ -- 35
+newline$ -- 48
 num.names$ -- 0
-pop$ -- 66
+pop$ -- 110
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 78
+skip$ -- 130
 stack$ -- 0
-substring$ -- 6
-swap$ -- 45
+substring$ -- 10
+swap$ -- 75
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 3
+type$ -- 5
 warning$ -- 0
 while$ -- 0
-width$ -- 4
-write$ -- 52
-(There was 1 warning)
+width$ -- 6
+write$ -- 72

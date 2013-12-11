@@ -30,9 +30,22 @@
 
 \bibitem{google2013widgettemplates}
 \BIBentryALTinterwordspacing
-{{App Widget Templates Pack}}. Android Open Source Project. Downloaded
-  7/12/2013, Apache 2 Licensed. [Online]. Available:
-  \url{http://developer.android.com/guide/practices/ui_guidelines/widget_design.html#templates}
+{{App Widget Templates Pack for Android 4.0}}. Android Open Source Project.
+  Downloaded 7/12/2013, Apache 2 Licensed. [Online]. Available:
+  \url{http://developer.android.com/shareables/app_widget_templates-v4.0.zip}
+\BIBentrySTDinterwordspacing
+
+\bibitem{google2013iconography}
+\BIBentryALTinterwordspacing
+{{Iconography}}. Android Open Source Project. Accessed 10/12/2013. [Online].
+  Available: \url{http://developer.android.com/design/style/iconography.html}
+\BIBentrySTDinterwordspacing
+
+\bibitem{google2013iconpack}
+\BIBentryALTinterwordspacing
+{{Action Bar Icon Pack}}. Android Open Source Project. Downloaded 7/12/2013,
+  Apache 2 Licensed. [Online]. Available:
+  \url{http://developer.android.com/downloads/design/Android_Design_Icons_20131106.zip}
 \BIBentrySTDinterwordspacing
 
 \bibitem{google2013colour}
