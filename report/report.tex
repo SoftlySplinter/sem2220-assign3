@@ -97,7 +97,20 @@ colours\cite{google2013colour}, a purely aesthetic element.
 Figure~\ref{fig:widget_design} shows the evolution of the design for the 
 widget.
 
+
 \section{Development}
+
+Most of the development was based on the documentation of Android App 
+Widget\cite{google2013appwidgets}. Following this resource, the API and some 
+examples from both the Android Open Source Project and textbook codes 
+samples\cite{murphy2009android}. With these resources it was a fairly simple 
+matter to implement the basic widget.
+
+All the development for the widget was kept in a separate Android project. The
+first action was to import the \texttt{DataAccess} class provided into this 
+project. The next step was to create a class which implemented 
+\texttt{AppWidgetProvider}. This used the layout shown in the previous section
+and a \texttt{RemoteViews} object to manipulate the elements in that layout.
 
 
 \section{Testing}

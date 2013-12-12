@@ -54,4 +54,16 @@
   Available: \url{http://developer.android.com/design/style/color.html}
 \BIBentrySTDinterwordspacing
 
+\bibitem{google2013appwidgets}
+\BIBentryALTinterwordspacing
+{{App Widgets}}. Android Open Source Project. Accessed 10/12/2013. [Online].
+  Available:
+  \url{https://developer.android.com/guide/topics/appwidgets/index.html}
+\BIBentrySTDinterwordspacing
+
+\bibitem{murphy2009android}
+M.~L. Murphy, \emph{{{The Busy Coder's Guide to Android Development}}}.\hskip
+  1em plus 0.5em minus 0.4em\relax CommonsWare, 6th Febuary 2009, vol. 5.4,
+  code Samples available: \url{https://github.com/commonsguy/cw-advandroid}.
+
 \end{thebibliography}
