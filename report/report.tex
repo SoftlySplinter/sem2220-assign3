@@ -112,8 +112,45 @@ project. The next step was to create a class which implemented
 \texttt{AppWidgetProvider}. This used the layout shown in the previous section
 and a \texttt{RemoteViews} object to manipulate the elements in that layout.
 
+To enable the loading of list content, subclasses \texttt{RemoteViewsService} 
+and \texttt{RemoteViewsFactory} were created. The service simply provides this 
+factory, whilst the service loads content into the list from the SQLite3 
+database using the \texttt{DataAccess} class.
+
+This brought forward a problem; the SQLite3 table row IDs defined in
+\texttt{ConferenceCP} did not match the actual SQLite3 row IDs provided. This
+lead to incorrect data being provided by the \texttt{DataAccess} class. Fixing
+this was a simple matter of changing these IDs to match the right IDs, but this
+may not apply to other implementations of SQLite3 (the version exported works
+in SQLite version 3.7.11, on the Android Emulator running on Linux Mint 14 
+Cinnamon 64-bit).
+
+To improve the loading of Sessions, a POJO\cite{fowler2000pojo} was created to
+represent a session and an additional method for loading this POJO was added 
+into the \texttt{DataAccess} class. The same thing was created to load a Date
+object from the database as the Session requires this. With these POJOs it was
+easy to display this in the list rows.
+
+The next task was to implement the next day and previous day functionality. 
+Initially the code for this was doing the widget provider. The buttons would 
+send a broadcast (either next or previous) to the provider and then to forcibly
+call the \texttt{onUpdate} method to reset the broadcasts and list service.
+
+However, talking to a fellow classmate (Gareth Williams) the easier way to do
+this was to send a broadcast to the service directly and just notify the App
+Widget Manager that the data for the list had changed.
+
+Finally, to download the notification an \texttt{AsyncTask} was implemented to
+handle the URL connection as it cannot be done in the Android main thread. The
+code for this is fairly standard and the correct permissions had to be set in
+the manifest file.
+
 
 \section{Testing}
+All testing was performed using the Android emulator. Most of this testing
+involved using the widget to ensure it worked correctly. Actually unit testing
+the code would have been fairly trivial as it only really integrated existing
+code and displayed it in layouts.
 
 
 \section{Evaluation}

@@ -66,4 +66,10 @@ M.~L. Murphy, \emph{{{The Busy Coder's Guide to Android Development}}}.\hskip
   1em plus 0.5em minus 0.4em\relax CommonsWare, 6th Febuary 2009, vol. 5.4,
   code Samples available: \url{https://github.com/commonsguy/cw-advandroid}.
 
+\bibitem{fowler2000pojo}
+\BIBentryALTinterwordspacing
+M.~Fowler. (2000, September) {{POJO}}. [Online]. Available:
+  \url{http://www.martinfowler.com/bliki/POJO.html}
+\BIBentrySTDinterwordspacing
+
 \end{thebibliography}
