@@ -8,17 +8,19 @@ import uk.ac.aber.androidcourse.conference.widget.R;
 import uk.ac.aber.androidcourse.conferencelibrary.DBAccess;
 import uk.ac.aber.androidcourse.conferencelibrary.DBAccess.DBAccessException;
 import uk.ac.aber.androidcourse.conferencelibrary.objects.Session;
-import android.annotation.TargetApi;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
-import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+/**
+ * Loads the Session list data.
+ * 
+ * @author Alex Brown
+ * @version 1.0
+ */
 public final class SessionsListFactory implements
 		RemoteViewsService.RemoteViewsFactory {
 
@@ -82,15 +84,15 @@ public final class SessionsListFactory implements
 
 	@Override
 	public void onCreate() {
-		//this.loadSessions(this.dayIDs[this.currentDay]);
+		// Do nothing, handled by onDataSetChanged
 	}
 
+	/**
+	 * Loads the sessions into {@link #sessions}
+	 * 
+	 * @param dayID
+	 */
 	private final void loadSessions(long dayID) {
-		// if(!this.validDay(dayID)) {
-		// Log.e(LOG_TAG, dayID + " is not a valid day");
-		// return;
-		// }
-
 		long[] sessionIds = this.access.getSessionsForDayId(dayID);
 		this.sessions = new ArrayList<Session>(sessionIds.length);
 		for (long _id : sessionIds) {
@@ -100,16 +102,6 @@ public final class SessionsListFactory implements
 				Log.e(LOG_TAG, "Unable to load session " + _id, e);
 			}
 		}
-	}
-
-	private final boolean validDay(long id) {
-		// I miss Python :( `return id in this.dayIDs`
-		for (long _id : this.dayIDs) {
-			if (_id == id) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	@Override
@@ -124,6 +116,12 @@ public final class SessionsListFactory implements
 		this.sessions = null;
 	}
 
+	/**
+	 * Receives broadcasts (from {@link SessionsListBroadcastReceiver}).
+	 * 
+	 * @param context
+	 * @param intent
+	 */
 	public void onReceive(Context context, Intent intent) {
 		if (intent.getAction().equals(ConferenceWidget.NEXT_ACTION)) {
 			this.next(context, intent);
@@ -133,6 +131,13 @@ public final class SessionsListFactory implements
 		}
 	}
 
+	/**
+	 * Go to the next day of sessions, wrapping around to the first day is
+	 * necessary.
+	 * 
+	 * @param context
+	 * @param intent
+	 */
 	private void next(Context context, Intent intent) {
 		AppWidgetManager mngr = AppWidgetManager.getInstance(context);
 
@@ -146,6 +151,13 @@ public final class SessionsListFactory implements
 				AppWidgetManager.INVALID_APPWIDGET_ID), R.id.widget_list);
 	}
 
+	/**
+	 * Go to the previous day of sessions, wrapping around to the last day of
+	 * sessions if necessary.
+	 * 
+	 * @param context
+	 * @param intent
+	 */
 	private void previous(Context context, Intent intent) {
 		AppWidgetManager mngr = AppWidgetManager.getInstance(context);
 
@@ -158,13 +170,4 @@ public final class SessionsListFactory implements
 				AppWidgetManager.EXTRA_APPWIDGET_ID,
 				AppWidgetManager.INVALID_APPWIDGET_ID), R.id.widget_list);
 	}
-
-	private final boolean atStart(long id) {
-		return id <= 0;
-	}
-
-	private final boolean atEnd(long id) {
-		return id >= this.dayIDs.length - 1;
-	}
-
 }

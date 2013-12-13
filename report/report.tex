@@ -152,32 +152,127 @@ involved using the widget to ensure it worked correctly. Actually unit testing
 the code would have been fairly trivial as it only really integrated existing
 code and displayed it in layouts.
 
+All figures below show the widget running on an emulated Nexus 4 at API level 
+19 (Android 4.4). The widget should also function on any API level 14 and above
+(Android 4.X). This is a requirement for the loading of the list.
+
+Figure~\ref{fig:days} shows the widget running on the emulator displaying 
+information for all sessions on the three days. 
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[b]{0.3\textwidth}
+\includegraphics[width=\textwidth]{img/running-day-1.png}
+\caption{The first day}
+\end{subfigure}
+\begin{subfigure}[b]{0.3\textwidth}
+\includegraphics[width=\textwidth]{img/running-day-2.png}
+\caption{The second day}
+\end{subfigure}
+\begin{subfigure}[b]{0.3\textwidth}
+\includegraphics[width=\textwidth]{img/running-day-3.png}
+\caption{The third day}
+\end{subfigure}
+\caption{The Widget displaying session information for the three different 
+         days}
+\label{fig:days}
+\end{figure}
+
+Figure~\ref{fig:resize} shows the widget's ability to resize vertically to show
+more information, depending on the user's available space.
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[b]{0.3\textwidth}
+\includegraphics[width=\textwidth]{img/resizing-3x4}
+\caption{Resizing to 3 by 4 cells}
+\end{subfigure}
+\begin{subfigure}[b]{0.3\textwidth}
+\includegraphics[width=\textwidth]{img/resizing-4x4}
+\caption{Resizing to 4 by 4 cells}
+\end{subfigure}
+\caption{Resizing the widget to show more information}
+\label{fig:resize}
+\end{figure}
+
+Figure~\ref{fig:notification} shows that the widget will dynamically load a 
+different notification from the remote URL.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.3\textwidth]{img/new-notification}
+\caption{Proving that the widget will load a new notification.}
+\label{fig:notification}
+\end{figure}
 
 \section{Evaluation}
+
+All of the feature requests have been implemented and evidenced as per the 
+figures shown in the previous section. The code is of decent quality and 
+conforms to the Android developer guidelines.
+
+The author has learned about the creation of Android homescreen widgets, having
+successfully implemented one, and has found the process to be challenging but 
+not unduly difficult. One does wonder why the Android API has such good support
+for Activities and Services, but how the implementation of widgets feels 
+somewhat mixed, surely a base class like Activity could have been provided to 
+handle widgets rather than directly manipulating remote views.
+
+A lot of the time spent on this project was spent understanding this 
+architecture and figuring out how to handle certain events correctly. It does 
+have the feeling that the actions to go left and right were not the kind of
+operation that widgets are meant to perform. But trying to implement this in a
+different way, by using a stacked view, lead to the problem that the lists
+could not be generated correctly inside another view.
+
+The amount of documentation for widgets is limited, so the example found in the
+book\cite{murphy2009android} were a lot of help.
+
+Aside from this, the normal numbers of error produced by either null pointers
+or going beyond lists were encountered and fixed, though it would have been 
+nice to debug the code using a debugger, but despite numerous attempts it would
+not halt at breakpoints, despite the debugger being correctly attached. The
+author would guess that widgets are so tied to the homescreen that it is 
+difficult for the Android Operating System to unlink them.
+
+Loading from a remote URL was a task the author has already investigated so did
+not provide many problems, although the initial use of a 
+\texttt{HttpURLConnection} and a \texttt{BufferedReader} did not combine well
+and always resulted in empty content, despite the result being 
+\texttt{HTTP 1.1/200 OK}. The solution was to simplify this and use the simpler
+\texttt{URLConnection} and \texttt{InputStreamReader}, manually setting the 
+buffer size to 255; a value which should not take up too much RAM
+of the device, but which should be enough to load the data quickly.
 
 
 Breaking down the mark scheme the author has predicted the grade which should 
 be given for each part, this is shown in table~\ref{tab:marks}.
 
-Therefore, the author feels a mark of 82\% should be awarded. The values chosen 
+Therefore, the author feels a mark of 86\% should be awarded. The values chosen 
 were based on the following reasons:
 
 \begin{description}
-\item[Documentation] 
-\item[Implementation] 
-\item[Flair] 
-\item[Testing] 
+\item[Documentation] This report conveys a detailed story of the implementation
+                     of code, problems encountered, lessons learned and this 
+                     indication of the mark which should be awarded.
+\item[Implementation] The design and code meets the specified functionality and
+                      conforms to the Android development guidelines.
+\item[Flair] The code has been implemented in a maintainable and proper manner,
+             especially in using POJOs to handle database interaction. The use
+             of a list to display sessions is also a complex feature which the
+             specification did not ask for.
+\item[Testing] Evidence of testing on the Android emulator has been provided.
 \end{description}
 
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|c|}\hline
 \textbf{Part} & \textbf{Worth} & \textbf{Predicted Grade} \\ \hline
-Documentation & 30\% & 25\% \\ 
+Documentation & 30\% & 27\% \\ 
 Implementation & 50\% & 45\% \\ 
-Flair & 10\% & 5\% \\ 
+Flair & 10\% & 7\% \\ 
 Testing & 10\% & 7\% \\ \hline
-Total & 100\% & 82\% \\ \hline
+Total & 100\% & 86\% \\ \hline
 \end{tabular}
 \caption{Break Down of Marks}\label{tab:marks}
 \end{table}

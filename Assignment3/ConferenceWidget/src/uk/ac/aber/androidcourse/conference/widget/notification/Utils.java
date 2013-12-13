@@ -25,6 +25,13 @@ public final class Utils {
 		}
 	}
 
+	/**
+	 * Reads the data from a URL by opening up a HTTP Connection to it.
+	 * 
+	 * @param The URL to read data from in a GET request.
+	 * 
+	 * @return The data read from the URL.
+	 */
 	public static final String readConnection(URL url)
 			throws IOException {
 		Log.i(LOG_TAG, String.format("GET %s HTTP/1.1", url.getFile()));
@@ -33,15 +40,14 @@ public final class Utils {
 		URLConnection conn = url.openConnection();
 		conn.addRequestProperty("Accept", "*/*");
 		
+		// Use a StringBuilder as constantly appending Strings is wasteful.
 		final StringBuilder s = new StringBuilder();
 		final InputStream stream = conn.getInputStream();
 		
 		try {
 			int count = 0;
-			int offset = 0;
 			byte buffer[] = new byte[256];
 			while((count = stream.read(buffer)) != -1) {
-				offset = offset + count;
 				String temp = new String(buffer);
 				s.append(temp.substring(0, count));
 			}

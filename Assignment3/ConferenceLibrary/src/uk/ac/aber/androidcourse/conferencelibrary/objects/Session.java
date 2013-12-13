@@ -23,7 +23,7 @@ public final class Session {
 	}
 
 	public final String formatTime() {
-		return String.format("%s - %s", this.startTime, this.endTime);
+		return String.format("%s %s-%s", this.day.date, this.startTime, this.endTime);
 	}
 
 	// Public instance variables because they are final

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.2.19)  12 DEC 2013 17:34
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2013.2.19)  13 DEC 2013 13:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -444,10 +444,64 @@ Overfull \hbox (15.77844pt too wide) in paragraph at lines 115--119
 emoteViewsFactory
  []
 
+<img/running-day-1.png, id=25, 578.16pt x 758.835pt>
+File: img/running-day-1.png Graphic file (type png)
+
+<use img/running-day-1.png>
+Package pdftex.def Info: img/running-day-1.png used on input line 165.
+(pdftex.def)             Requested size: 135.89174pt x 178.34941pt.
+
+<img/running-day-2.png, id=26, 578.16pt x 758.835pt>
+File: img/running-day-2.png Graphic file (type png)
+
+<use img/running-day-2.png>
+Package pdftex.def Info: img/running-day-2.png used on input line 169.
+(pdftex.def)             Requested size: 135.89174pt x 178.34941pt.
+
+<img/running-day-3.png, id=27, 578.16pt x 758.835pt>
+File: img/running-day-3.png Graphic file (type png)
+
+<use img/running-day-3.png>
+Package pdftex.def Info: img/running-day-3.png used on input line 173.
+(pdftex.def)             Requested size: 135.89174pt x 178.34941pt.
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[4] (./report.bbl)
+<img/resizing-3x4.png, id=28, 578.16pt x 758.835pt>
+File: img/resizing-3x4.png Graphic file (type png)
+ <use img/resizing-3x4.png>
+Package pdftex.def Info: img/resizing-3x4.png used on input line 187.
+(pdftex.def)             Requested size: 135.89174pt x 178.34941pt.
+
+<img/resizing-4x4.png, id=29, 578.16pt x 758.835pt>
+File: img/resizing-4x4.png Graphic file (type png)
+ <use img/resizing-4x4.png>
+Package pdftex.def Info: img/resizing-4x4.png used on input line 191.
+(pdftex.def)             Requested size: 135.89174pt x 178.34941pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<img/new-notification.png, id=30, 578.16pt x 758.835pt>
+File: img/new-notification.png Graphic file (type png)
+
+<use img/new-notification.png>
+Package pdftex.def Info: img/new-notification.png used on input line 203.
+(pdftex.def)             Requested size: 135.89174pt x 178.34941pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[4] [5 <./img/running-day-1.png> <./img/running-day-2.png> <./img/running-day-3
+.png> <./img/resizing-3x4.png> <./img/resizing-4x4.png> <./img/new-notification
+.png>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[6
+
+] (./report.bbl)
 
 Package glossaries Warning: \makeglossaries hasn't been used,
 the glossaries will not be updated.
@@ -456,12 +510,12 @@ the glossaries will not be updated.
 Package glossaries Warning: No \printglossary or \printglossaries found.
 This document will not have a glossary.
 
-[5] (./report.aux) ) 
+[7] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 7117 strings out of 493485
- 103997 string characters out of 3143526
- 185925 words of memory out of 3000000
- 10287 multiletter control sequences out of 15000+200000
+ 7150 strings out of 493485
+ 104762 string characters out of 3143526
+ 186949 words of memory out of 3000000
+ 10314 multiletter control sequences out of 15000+200000
  11267 words of font info for 42 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
  53i,8n,92p,1438b,518s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -473,10 +527,10 @@ r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texl
 ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on report.pdf (5 pages, 218471 bytes).
+Output written on report.pdf (7 pages, 1827268 bytes).
 PDF statistics:
- 59 PDF objects out of 1000 (max. 8388607)
- 37 compressed objects within 1 object stream
+ 79 PDF objects out of 1000 (max. 8388607)
+ 43 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 46 words of extra memory for PDF output out of 10000 (max. 10000000)
 

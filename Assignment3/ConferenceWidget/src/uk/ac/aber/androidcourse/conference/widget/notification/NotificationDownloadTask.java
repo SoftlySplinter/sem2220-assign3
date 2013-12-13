@@ -7,10 +7,17 @@ import java.net.URL;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public final class NotificationDownloadService extends AsyncTask<Void, Void, String> {
+/**
+ * Async Task to download the notification.
+ * 
+ * @author Alex Brown
+ * @version 1.0
+ */
+public final class NotificationDownloadTask extends AsyncTask<Void, Void, String> {
 	private static final String NOTIFICATION_URL = "http://users.aber.ac.uk/aos/android/message.php";
 	private static final String LOG_TAG = "Notification Downloader";
 	
+	@Override
 	protected String doInBackground(Void ...v) {
 		try {
 			return Utils.readConnection(new URL(NOTIFICATION_URL));
@@ -19,6 +26,6 @@ public final class NotificationDownloadService extends AsyncTask<Void, Void, Str
 		} catch (IOException e) {
 			Log.e(LOG_TAG, "Failed to read from URL: " + NOTIFICATION_URL, e);
 		}
-		return "No notification";
+		return null;
 	}
 }
