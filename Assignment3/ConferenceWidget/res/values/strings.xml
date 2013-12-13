@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Application Strings -->
+    <string name="app_name">Conference Widget</string>
+    
+    <!-- Text -->
+    <string name="empty_list">Can\'t load sessions</string>
+    <string name="notification">No Notifications</string>
+    
+    <!-- Descriptions -->
+    <string name="previous_day">Previous Day</string>
+    <string name="next_day">Next Day</string>
+
+    <!-- Colours -->
+    <color name="conference_dark">#222222</color>
+    <color name="conference_light">#555555</color>
+    
+    <!-- Formatting -->
+    <dimen name="widget_padding">10dp</dimen>
+    <dimen name="widget_button_width">48dp</dimen>
+    <dimen name="text_padding">10dp</dimen>
+
+</resources>

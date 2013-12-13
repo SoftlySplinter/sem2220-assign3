@@ -5,4 +5,12 @@
     <string name="app_name">ConfDBase</string>
     <string name="debugActivityMessage">This is a content provider. This activity is here for debug puposes. The activity outputs the contents of the database to the log file.</string>
 
+    <color name="conference_dark">#222222</color>
+    <color name="conference_light">#555555</color>
+    <dimen name="widget_padding">10dp</dimen>
+    <dimen name="widget_button_width">40dp</dimen>
+    <string name="previous_day">Previous Day</string>
+    <string name="next_day">Next Day</string>
+    <dimen name="text_padding">10dp</dimen>
+
 </resources>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/widget_padding"
+    tools:ignore="UselessParent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/appwidget_bg"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/title_bar"
+            android:gravity="center"
+            android:text="Conference Details"
+            android:textColor="@color/conference_dark"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/widget_left"
+                android:layout_width="@dimen/widget_button_width"
+                android:layout_height="match_parent"
+                android:background="@drawable/appwidget_button_left"
+                android:contentDescription="@string/previous_day"
+                android:src="@drawable/ic_action_previous_item" />
+
+            <ListView
+                android:id="@+id/widget_list"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/widget_empty"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center" />
+
+                <ImageButton
+                    android:id="@+id/widget_right"
+                    android:layout_width="@dimen/widget_button_width"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/appwidget_button_right"
+                    android:contentDescription="@string/next_day"
+                    android:src="@drawable/ic_action_next_item" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/widget_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/notification"
+            android:textColor="@color/conference_dark" />
+    </LinearLayout>
+
+</FrameLayout>

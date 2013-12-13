@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        
         <provider
             android:authorities="uk.ac.aber.androidcourse.conference.provider.conferencecontentprovider"
             android:name=".provider.ConferenceContentProvider" />
