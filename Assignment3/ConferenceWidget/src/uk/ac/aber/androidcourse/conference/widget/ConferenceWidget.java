@@ -4,20 +4,22 @@ import java.util.concurrent.ExecutionException;
 
 import uk.ac.aber.androidcourse.conference.widget.list.SessionsListBroadcastReceiver;
 import uk.ac.aber.androidcourse.conference.widget.list.SessionsListService;
-import uk.ac.aber.androidcourse.conference.widget.notification.NotificationDownloadService;
-import android.annotation.TargetApi;
+import uk.ac.aber.androidcourse.conference.widget.notification.NotificationDownloadTask;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+/**
+ * Handles the Conference Widget.
+ * 
+ * @author Alex Brown
+ * @version 1.0
+ */
 public class ConferenceWidget extends AppWidgetProvider {
 	private static final String LOG_TAG = "Conferece Widget";
 	public static final String NEXT_ACTION = "uk.ac.aber.androidcourse.widget.NEXT_ID";
@@ -91,16 +93,13 @@ public class ConferenceWidget extends AppWidgetProvider {
 	 */
 	private final void getNotification(final RemoteViews views) {
 		try {
-			final NotificationDownloadService service = new NotificationDownloadService();
+			final NotificationDownloadTask service = new NotificationDownloadTask();
 			service.execute();
-			
+
 			String notification = service.get();
-			Log.i(LOG_TAG, "Got result: " + notification);
-			if(notification.isEmpty()) {
-				// TODO load this from the strings.xml file.
-				notification = "No Notification";
+			if (notification != null && !notification.isEmpty()) {
+				views.setTextViewText(R.id.widget_notification, notification);
 			}
-			views.setTextViewText(R.id.widget_notification, notification);
 		} catch (InterruptedException e) {
 			Log.d(LOG_TAG, "Interrupted", e);
 		} catch (ExecutionException e) {
